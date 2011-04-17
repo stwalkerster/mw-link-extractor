@@ -1,5 +1,0 @@
-d:\users\stwalkerster\my documents\visual studio 2010\Projects\MWDataDumpLinkExtractor\MWDataDumpLinkExtractor\bin\Debug\MWDataDumpLinkExtractor.exe
-d:\users\stwalkerster\my documents\visual studio 2010\Projects\MWDataDumpLinkExtractor\MWDataDumpLinkExtractor\bin\Debug\MWDataDumpLinkExtractor.pdb
-d:\users\stwalkerster\my documents\visual studio 2010\Projects\MWDataDumpLinkExtractor\MWDataDumpLinkExtractor\obj\x86\Debug\ResolveAssemblyReference.cache
-d:\users\stwalkerster\my documents\visual studio 2010\Projects\MWDataDumpLinkExtractor\MWDataDumpLinkExtractor\obj\x86\Debug\MWDataDumpLinkExtractor.exe
-d:\users\stwalkerster\my documents\visual studio 2010\Projects\MWDataDumpLinkExtractor\MWDataDumpLinkExtractor\obj\x86\Debug\MWDataDumpLinkExtractor.pdb
