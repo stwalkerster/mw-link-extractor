@@ -1,0 +1,3 @@
+== MediaWiki XML Data Dump Link Extractor ==
+
+Extracts external links from an XML dump from Wikipedia
