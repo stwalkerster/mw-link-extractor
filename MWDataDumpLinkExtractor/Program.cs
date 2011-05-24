@@ -28,20 +28,8 @@ namespace MWDataDumpLinkExtractor
             }
 
 
-            var d = new XPathDocument(infile);
-            var n = d.CreateNavigator();
-            var ni = n.Select("//mediawiki/page/revision/text");
-            var r = new Regex(@"\[([^\] ])(?:(?:[^\]])|\])");
-            while (ni.MoveNext())
-            {
-                foreach (Match m in r.Matches(ni.Current.Value))
-                {
-                    outfile.WriteLine(">>" + new Uri(m.Groups[1].Value));
-                    outfile.Flush();
-                }
-
-            }
-            outfile.Close();
+            StreamReader infilereader = new StreamReader(infile);
+            infilereader.
         }
     }
 }
