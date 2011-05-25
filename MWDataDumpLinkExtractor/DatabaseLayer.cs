@@ -15,7 +15,7 @@ namespace MWDataDumpLinkExtractor
 
         private Dictionary<int, string> nextSet;
         private string setToken = "EMPTY";
-        private int _setSize;
+        private int _setSize = 1000;
 
         private Thread retrieverThread;
 
