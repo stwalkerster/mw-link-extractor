@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Security;
 using System.Text;
 using System.Threading;
@@ -16,6 +17,10 @@ namespace MWDataDumpLinkExtractor
         private Dictionary<int, string> nextSet;
         private string setToken = "EMPTY";
         private int _setSize = 1000;
+        private int _nextSet = 0;
+
+        private MySqlCommand cmd;
+
 
         private Thread retrieverThread;
 
@@ -39,9 +44,30 @@ namespace MWDataDumpLinkExtractor
         {
             lock (padlock)
             {
+                
+
+                MySqlParameter start = cmd.Parameters.Add("?start", MySqlDbType.UInt32);
+                MySqlParameter limit = cmd.Parameters.Add("?limit", MySqlDbType.UInt32);
+
+                start.Value = _nextSet;
+                limit.Value = _setSize;
+
+                DataSet ds = new DataSet();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds);
+
+                DataTableReader dataTableReader = ds.Tables[0].CreateDataReader();
+
+                nextSet = new Dictionary<int, string>(_setSize);
+                do
+                {
+                    object[] vals = new object[5]; // from, to, id, status, timestamp
+                    dataTableReader.GetValues(vals);
 
 
+                } while (dataTableReader.Read());
 
+                _nextSet += _setSize;
 
                 // generate a token
                 setToken = Guid.NewGuid().ToString();
@@ -57,6 +83,15 @@ namespace MWDataDumpLinkExtractor
 
         public void initialise()
         {
+            _conn.Open();
+            cmd = new MySqlCommand("SELECT * FROM el ORDER BY el_id ASC LIMIT ?start, ?limit");
+
+            cmd.Connection = _conn;
+
+            cmd.Prepare();
+
+
+
             retrieverThread.Start();
         }
 
