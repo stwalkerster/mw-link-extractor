@@ -62,43 +62,52 @@ namespace TableSplitter
 
                 // commit
                 t.Commit();
-                
 
-                // (split data)
-                Uri u = new Uri(url);
-                string protocol = u.Scheme,
-                    domain = u.DnsSafeHost;
+                try
+                {
+                    // (split data)
+                    Uri u = new Uri(url);
+                    string protocol = u.Scheme,
+                           domain = u.DnsSafeHost;
 
-                // insert ignore into protocol
-                cmd = new MySqlCommand("INSERT IGNORE INTO protocol (protocol) VALUES (@1) ;", connection, t);
-                cmd.Parameters.AddWithValue("@1", protocol);
-                cmd.ExecuteNonQuery();
+                    // insert ignore into protocol
+                    cmd = new MySqlCommand("INSERT IGNORE INTO protocol (protocol) VALUES (@1) ;", connection, t);
+                    cmd.Parameters.AddWithValue("@1", protocol);
+                    cmd.ExecuteNonQuery();
 
-                // get protocol id
-                cmd = new MySqlCommand("SELECT id FROM protocol WHERE protocol = @1 ;", connection, t);
-                cmd.Parameters.AddWithValue("@1", protocol);
-                int protocolid = (int)cmd.ExecuteScalar();
+                    // get protocol id
+                    cmd = new MySqlCommand("SELECT id FROM protocol WHERE protocol = @1 ;", connection, t);
+                    cmd.Parameters.AddWithValue("@1", protocol);
+                    int protocolid = (int) cmd.ExecuteScalar();
 
-                // insert ignore into domain
-                cmd = new MySqlCommand("INSERT IGNORE INTO domain (domain) VALUES (@1) ;", connection, t);
-                cmd.Parameters.AddWithValue("@1", domain);
-                cmd.ExecuteNonQuery();
+                    // insert ignore into domain
+                    cmd = new MySqlCommand("INSERT IGNORE INTO domain (domain) VALUES (@1) ;", connection, t);
+                    cmd.Parameters.AddWithValue("@1", domain);
+                    cmd.ExecuteNonQuery();
 
-                // get domain id
-                cmd = new MySqlCommand("SELECT id FROM domain WHERE domain = @1 ;", connection, t);
-                cmd.Parameters.AddWithValue("@1", domain);
-                int domainid = (int)cmd.ExecuteScalar();
+                    // get domain id
+                    cmd = new MySqlCommand("SELECT id FROM domain WHERE domain = @1 ;", connection, t);
+                    cmd.Parameters.AddWithValue("@1", domain);
+                    int domainid = (int) cmd.ExecuteScalar();
 
-                // insert into link protocol domain link fragment page
-                cmd = new MySqlCommand("INSERT INTO link (protocol, domain, path, fragment, page) VALUES( @1, @2, @3, @4, @5);", connection, t);
-                cmd.Parameters.AddWithValue("@5", page);
-                cmd.Parameters.AddWithValue("@2", domainid);
-                cmd.Parameters.AddWithValue("@1", protocolid);
-                cmd.Parameters.AddWithValue("@3", u.PathAndQuery);
-                cmd.Parameters.AddWithValue("@4", u.Fragment);
-                cmd.ExecuteNonQuery();
+                    // insert into link protocol domain link fragment page
+                    cmd =
+                        new MySqlCommand(
+                            "INSERT INTO link (protocol, domain, path, fragment, page) VALUES( @1, @2, @3, @4, @5);",
+                            connection, t);
+                    cmd.Parameters.AddWithValue("@5", page);
+                    cmd.Parameters.AddWithValue("@2", domainid);
+                    cmd.Parameters.AddWithValue("@1", protocolid);
+                    cmd.Parameters.AddWithValue("@3", u.PathAndQuery);
+                    cmd.Parameters.AddWithValue("@4", u.Fragment);
+                    cmd.ExecuteNonQuery();
 
-                Console.WriteLine(" ... DONE");
+                    Console.WriteLine(" ... DONE");
+
+                }
+                catch(Exception)
+                {
+                }
             }
         }
     }
