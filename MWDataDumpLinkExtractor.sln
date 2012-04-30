@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MWDataDumpLinkExtractor", "MWDataDumpLinkExtractor\MWDataDumpLinkExtractor.csproj", "{6FECFD9C-8DD9-4AE1-A1E0-D5617C6732A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableSplitter", "MWDataDumpLinkExtractor\TableSplitter.csproj", "{6FECFD9C-8DD9-4AE1-A1E0-D5617C6732A0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C647F4F4-86F6-41C2-8070-2C6F2AE3F2F4}"
 	ProjectSection(SolutionItems) = preProject
