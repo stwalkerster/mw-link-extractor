@@ -40,27 +40,29 @@ namespace TableSplitter
 
                 if (!r.Read()) break;
 
-                int page = r.GetInt32(0);
-                string url = r.GetString(1);
-                string idx = r.GetString(2);
+                int id = r.GetInt32(0);
+                int page = r.GetInt32(1);
+                string url = r.GetString(2);
 
                 r.Close();
 
                 // insert into processed
-                cmd = new MySqlCommand("INSERT INTO processed VALUES( @1, @2, @3);", connection, t);
-                cmd.Parameters.AddWithValue("@1", page);
-                cmd.Parameters.AddWithValue("@2", url);
-                cmd.Parameters.AddWithValue("@3", idx);
+                cmd = new MySqlCommand("INSERT INTO processed (id, el_from, el_to) VALUES( @1, @2, @3);", connection, t);
+                cmd.Parameters.AddWithValue("@1", id);
+                cmd.Parameters.AddWithValue("@2", page);
+                cmd.Parameters.AddWithValue("@3", url);
                 cmd.ExecuteNonQuery();
 
                 // delete it from externallinks
-                cmd = new MySqlCommand("DELETE FROM externallinks WHERE el_from = @1 AND el_to = @2 AND el_index = @3;", connection, t);
-                cmd.Parameters.AddWithValue("@1", page);
-                cmd.Parameters.AddWithValue("@2", url);
-                cmd.Parameters.AddWithValue("@3", idx);
-                //cmd.ExecuteNonQuery();
+                cmd = new MySqlCommand("DELETE FROM externallinks WHERE id = @1;", connection, t);
+                cmd.Parameters.AddWithValue("@1", id);
+                cmd.ExecuteNonQuery();
 
-                Console.WriteLine(url);
+                Console.Write(url);
+
+                // commit
+                t.Commit();
+                
 
                 // (split data)
                 Uri u = new Uri(url);
@@ -96,9 +98,7 @@ namespace TableSplitter
                 cmd.Parameters.AddWithValue("@4", u.Fragment);
                 cmd.ExecuteNonQuery();
 
-                // commit
-                t.Commit();
-                
+                Console.WriteLine(" ... DONE");
             }
         }
     }
